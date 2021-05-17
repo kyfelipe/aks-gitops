@@ -3,7 +3,7 @@ name: Provision GKE
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   provision:
