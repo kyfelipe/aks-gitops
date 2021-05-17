@@ -1,4 +1,4 @@
-name: Provision GKE
+name: Provision AKS
 
 on:
   push:
