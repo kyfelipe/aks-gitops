@@ -1,0 +1,46 @@
+name: Destroy GKE
+
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: terraform destroy
+        default: destroy
+        required: true
+
+jobs:
+  destroy:
+    name: destroy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az account show
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az aks get-credentials --resource-group conductor --name conductor-aks
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: playbook_uninstall.yml
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.4
+      - name: Terraform Init
+        id: init
+        run: terraform init -input=false
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -auto-approve -no-color
+        continue-on-error: true
