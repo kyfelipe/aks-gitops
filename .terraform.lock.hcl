@@ -20,7 +20,8 @@ provider "registry.terraform.io/hashicorp/azurerm" {
 }
 
 provider "registry.terraform.io/hashicorp/local" {
-  version = "2.1.0"
+  version     = "2.1.0"
+  constraints = "2.1.0"
   hashes = [
     "h1:EYZdckuGU3n6APs97nS2LxZm3dDtGqyM4qaIvsmac8o=",
     "zh:0f1ec65101fa35050978d483d6e8916664b7556800348456ff3d09454ac1eae2",

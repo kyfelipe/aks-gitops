@@ -4,18 +4,18 @@ module "postgresql" {
   location            = azurerm_resource_group.conductor.location
   resource_group_name = azurerm_resource_group.conductor.name
 
-  server_name                  = "postgresql-aks"
-  sku_name                     = "B_Gen5_1"
-  storage_mb                   = 5120
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  administrator_login          = "psqladmin"
-  administrator_password       = "qF2Wx5F6mzeuvQA"
-  server_version               = "11"
-  ssl_enforcement_enabled      = false
-  db_names                     = ["conductor"]
-  db_charset                   = "UTF8"
-  db_collation                 = "English_United States.1252"
+  server_name                  = local.config.sql.server_name
+  sku_name                     = local.config.sql.sku_name
+  storage_mb                   = local.config.sql.storage_mb
+  backup_retention_days        = local.config.sql.backup_retention_days
+  geo_redundant_backup_enabled = local.config.sql.geo_redundant_backup_enabled
+  administrator_login          = local.config.sql.admin.login
+  administrator_password       = local.config.sql.admin.password
+  server_version               = local.config.sql.server_version
+  ssl_enforcement_enabled      = local.config.sql.ssl_enforcement_enabled
+  db_names                     = local.config.sql.db.names
+  db_charset                   = local.config.sql.db.charset
+  db_collation                 = local.config.sql.db.collation
 
   firewall_rule_prefix = "firewall-"
   firewall_rules = [

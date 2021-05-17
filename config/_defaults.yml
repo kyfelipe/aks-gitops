@@ -1,0 +1,61 @@
+---
+# Resource Group
+resource_group:
+  name: "conductor"
+  location: "South Central US"
+
+# Virtual Network
+vnet:
+  name: "conductor"
+  address_space:
+    - "120.0.0.0/16"
+  dns_servers: []
+  subnet:
+    name: "subnet1"
+    address_prefixes:
+      - "120.0.1.0/24"
+    service_endpoints: []
+
+# Azure Kubernetes Service
+aks:
+  kubernetes_version: "1.19.9"
+  orchestrator_version: "1.19.9"
+  prefix_name: "conductor"
+  network_plugin: "azure"
+  os_disk_size_gb:  50
+  sku_tier:  "Free"
+  enable_role_based_access_control:  false
+  rbac_aad_managed:  false
+  private_cluster_enabled:  false
+  enable_http_application_routing:  false
+  enable_azure_policy:  false
+  enable_auto_scaling:  false
+  agents:
+    count: 3
+    pool_name: "nodepool"
+    availability_zones: ["1", "2"]
+    type: "VirtualMachineScaleSets"
+  network:
+    policy: "azure"
+    profile:
+      dns_service_ip: "10.0.0.10"
+      docker_bridge_cidr: "170.10.0.1/16"
+      service_cidr: "10.0.0.0/16"
+
+# PostgreSQL Database
+sql:
+  server_name: "postgresql-aks"
+  sku_name: "B_Gen5_1"
+  storage_mb: 5120
+  backup_retention_days: 7
+  geo_redundant_backup_enabled: false
+  admin:
+    login: "psqladmin"
+    password: "qF2Wx5F6mzeuvQA"
+  server_version: "11"
+  ssl_enforcement_enabled: false
+  db:
+    charset: "UTF8"
+    collation: "English_United States.1252"
+    names:
+      - "conductor"

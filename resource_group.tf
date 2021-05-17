@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "conductor" {
-  name     = "conductor"
-  location = "South Central US"
+  name     = local.config.resource_group.name
+  location = local.config.resource_group.location
 }

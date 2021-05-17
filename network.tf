@@ -1,17 +1,17 @@
 resource "azurerm_virtual_network" "vnet" {
-  name                = "conductor"
+  name                = local.config.vnet.name
   resource_group_name = azurerm_resource_group.conductor.name
   location            = azurerm_resource_group.conductor.location
-  address_space       = ["120.0.0.0/16"]
-  dns_servers         = []
+  address_space       = local.config.vnet.address_space
+  dns_servers         = local.config.vnet.dns_servers
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = "subnet1"
+  name                 = local.config.vnet.subnet.name
   resource_group_name  = azurerm_resource_group.conductor.name
-  address_prefixes     = ["120.0.1.0/24"]
+  address_prefixes     = local.config.vnet.subnet.address_prefixes
   virtual_network_name = azurerm_virtual_network.vnet.name
-  service_endpoints    = []
+  service_endpoints    = local.config.vnet.subnet.service_endpoints
 }
 
 resource "azurerm_network_security_group" "inbound" {
