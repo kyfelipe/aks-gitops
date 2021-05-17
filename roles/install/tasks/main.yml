@@ -1,0 +1,7 @@
+---
+- name: install
+  include: "{{ item }}"
+  loop:
+    - nginx.yml
+    - cert-manager.yml
+    - prometheus-stack.yml

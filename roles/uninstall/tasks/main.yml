@@ -1,0 +1,5 @@
+---
+- name: install
+  include: "{{ item }}"
+  loop:
+    - uninstall.yml

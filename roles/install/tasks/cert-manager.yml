@@ -1,0 +1,31 @@
+---
+- name: import cert-manager repo
+  shell: |
+    helm repo add jetstack {{ cert_manager_repo_url }}
+    helm repo update
+  changed_when: false
+
+# - name: install CRDs
+#   shell: >
+#     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
+#   changed_when: false
+
+- name: install cert-manager
+  shell: >
+    helm upgrade -i --version {{ cert_manager_version }} -f ./roles/install/files/cert-manager-values.yml cert-manager jetstack/cert-manager
+  changed_when: false
+
+- name: checking for existing cluster issuers
+  shell: >
+    kubectl get ClusterIssuer letsencrypt-production
+  register: k8s_cluster_issuer
+  failed_when: (k8s_cluster_issuer['rc'] > 1)
+  changed_when: false
+
+
+- name: install cluster issuers
+  shell: >
+    kubectl apply -f ./roles/install/files/cluster-issuer.yml
+  when:
+    - k8s_cluster_issuer['rc'] == 1
+  changed_when: false

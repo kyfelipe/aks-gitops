@@ -1,0 +1,11 @@
+---
+- name: import prometheus-stack repo
+  shell: |
+    helm repo add prometheus-community {{ prometheus_stack_repo_url }}
+    helm repo update
+  changed_when: false
+
+- name: install prometheus-stack
+  shell: >
+    helm upgrade -i --version {{ prometheus_stack_version }} -f ./roles/install/files/prometheus-stack-values.yml prometheus-stack prometheus-community/kube-prometheus-stack
+  changed_when: false

@@ -1,0 +1,15 @@
+---
+- name: uninstall nginx
+  shell: >
+    helm uninstall nginx
+  changed_when: false
+
+- name: uninstall cert-manager
+  shell: >
+    helm uninstall cert-manager
+  changed_when: false
+
+- name: uninstall cert-manager
+  shell: >
+    helm uninstall prometheus-stack
+  changed_when: false

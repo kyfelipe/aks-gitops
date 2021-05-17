@@ -1,0 +1,16 @@
+alertmanager:
+  enabled: false
+
+grafana:
+  enabled: true
+  adminPassword: "conductor"
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+    hosts: ["grafana.conductor.fcortes.com.br"]
+    tls:
+      - hosts:
+        - grafana.conductor.fcortes.com.br
+        secretName: grafana-cert

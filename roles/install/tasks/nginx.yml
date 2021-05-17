@@ -1,0 +1,12 @@
+---
+- name: import nginx repo
+  shell: |
+    helm repo add ingress-nginx {{ nginx_repo_url }}
+    helm repo update
+  changed_when: false
+
+
+- name: install nginx
+  shell: >
+    helm upgrade -i --version {{ nginx_version }} nginx ingress-nginx/ingress-nginx
+  changed_when: false
